@@ -64,7 +64,7 @@ model-viewer {
     left: 50%;
     transform: translateX(-50%);
     white-space: nowrap;
-    bottom: 32px;
+    bottom: 52px;
     padding: 0px 16px 0px 40px;
     font-family: 'Roboto Regular', 'Helvetica Neue', sans-serif;
     font-size: 14px;
