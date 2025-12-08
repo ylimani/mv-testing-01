@@ -141,7 +141,7 @@ model-viewer > #ar-prompt > img {
 /* Centering container for the single button */
 .button-container {
     background-color: white;
-    padding-bottom: 0px;
+    padding-bottom: 15px;
     display: flex; 
     justify-content: center;
 }
