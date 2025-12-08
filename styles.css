@@ -132,7 +132,7 @@ model-viewer > #ar-prompt > img {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     transition: all 0.15s ease-in-out;
     /* FIX 1: Add a high z-index to ensure the shadow stacks above the glb div */
-    z-index: 100;
+    z-index: 10;
 }
 #openInfoModal:hover {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
