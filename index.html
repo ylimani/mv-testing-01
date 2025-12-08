@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="description" content="3D Model Viewer with Language Select">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>3D Model Viewer with Tabbed Information</title>
+    
+    <!-- Load Tailwind CSS for modern layout flexibility and general styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Load custom CSS stylesheet -->
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Load model-viewer for 3D and AR capabilities -->
+    <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/1.12.0/model-viewer.min.js"></script>
+    
+</head>
+<body>
+    <div class="p-4 bg-white shadow-md">
+        <!-- Single Info Button -->
+        <div class="button-container">
+            <button id="openInfoModal">Info</button>
+        </div>
+    </div>
+    
+    <!-- <model-viewer> HTML element -->
+    <model-viewer 
+        src="Pema_03_01.glb" 
+        ar 
+        ar-modes="webxr scene-viewer quick-look" 
+        camera-controls 
+        tone-mapping="neutral" 
+        poster="poster.webp" 
+        shadow-intensity="1" 
+        shadow-softness="1"
+    >
+        <div class="progress-bar hide" slot="progress-bar">
+            <div class="update-bar"></div>
+        </div>
+        
+        <button slot="ar-button" id="ar-button">
+            View in your space
+        </button>
+        
+        <div id="ar-prompt">
+            <img src="ar_hand_prompt.png" alt="AR Guide Hand Prompt">
+        </div>
+    </model-viewer>
+    
+    <!-- Single Tabbed Modal Structure for ALL Languages -->
+    <div id="infoModal" class="modal-overlay">
+        <!-- Modal body changed to bg-gray-100 for overall darker feel -->
+        <div class="bg-gray-100 rounded-lg shadow-2xl w-11/12 max-w-4xl h-5/6 overflow-hidden flex flex-col">
+            <!-- Modal Header -->
+            <div class="p-6 pb-0 flex justify-between items-center bg-gray-100">
+                <h3 class="text-2xl font-bold text-gray-800">Model Information</h3>
+                <button id="closeModal" class="text-gray-500 hover:text-gray-900 transition duration-150 p-2 text-xl">
+                    &times; 
+                </button>
+            </div>
+
+            <!-- Tab Navigation (Centered) -->
+            <div class="px-6 flex space-x-2 mt-2 bg-gray-100 justify-center">
+                <button 
+                    class="tab-button py-2 px-4 text-sm font-semibold text-gray-700 bg-gray-200 hover:bg-gray-300 rounded-t-lg active" 
+                    data-tab="shqip">
+                    Shqip
+                </button>
+                <button 
+                    class="tab-button py-2 px-4 text-sm font-semibold text-gray-700 bg-gray-200 hover:bg-gray-300 rounded-t-lg" 
+                    data-tab="english">
+                    English
+                </button>
+                <button 
+                    class="tab-button py-2 px-4 text-sm font-semibold text-gray-700 bg-gray-200 hover:bg-gray-300 rounded-t-lg" 
+                    data-tab="serbian">
+                    Serbian
+                </button>
+            </div>
+            
+            <!-- Tab Content (Scrollable Area) - Background is white to connect with active tab -->
+            <div class="p-6 pt-4 overflow-y-auto flex-grow bg-white rounded-b-lg">
+                <!-- Shqip Content -->
+                <div id="content-shqip" class="tab-content text-gray-700 leading-relaxed space-y-4 text-justify">
+                    <!-- Shqip content loaded by JS -->
+                </div>
+
+                <!-- English Content -->
+                <div id="content-english" class="tab-content hidden text-gray-700 leading-relaxed space-y-4 text-justify">
+                    <!-- English content loaded by JS -->
+                </div>
+
+                <!-- Serbian Content -->
+                <div id="content-serbian" class="tab-content hidden text-gray-700 leading-relaxed space-y-4 text-justify">
+                    <!-- Serbian content loaded by JS -->
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Load application logic -->
+    <script src="app.js"></script>
+</body>
+</html>

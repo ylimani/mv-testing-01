@@ -1,0 +1,188 @@
+/* General Body and Container Setup */
+:not(:defined) > * {
+    display: none;
+}
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    font-family: 'Inter', sans-serif;
+    background-color: #f7f9fb;
+}
+
+/* --- Model Viewer, AR, Progress Bar Styles --- */
+
+model-viewer {
+    width: 100%;
+    /* Make it responsive but leave space for controls at the top/bottom */
+    height: calc(100vh - 80px); 
+    background-color: #ffffff;
+    /* Added margin to separate from the Info button */
+    margin-top: 16px; 
+    border-radius: 8px; 
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.progress-bar {
+    display: block;
+    width: 33%;
+    height: 10%;
+    max-height: 2%;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate3d(-50%, -50%, 0);
+    border-radius: 25px;
+    box-shadow: 0px 3px 10px 3px rgba(0, 0, 0, 0.5), 0px 0px 5px 1px rgba(0, 0, 0, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.9);
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.progress-bar.hide {
+    visibility: hidden;
+    transition: visibility 0.3s;
+}
+
+.update-bar {
+    background-color: rgba(255, 255, 255, 0.9);
+    width: 0%;
+    height: 100%;
+    border-radius: 25px;
+    float: left;
+    transition: width 0.3s;
+}
+
+#ar-button {
+    /* Using a simple blue circle as a placeholder for ar_icon.png */
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Ccircle cx='12' cy='12' r='10' fill='%234285f4'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-size: 20px 20px;
+    background-position: 12px 50%;
+    background-color: #fff;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    white-space: nowrap;
+    bottom: 16px;
+    padding: 0px 16px 0px 40px;
+    font-family: 'Roboto Regular', 'Helvetica Neue', sans-serif;
+    font-size: 14px;
+    color:#4285f4;
+    height: 36px;
+    line-height: 36px;
+    border-radius: 18px;
+    border: 1px solid #DADCE0;
+    z-index: 10; 
+}
+
+#ar-button:active { background-color: #E8EAED; }
+#ar-button:focus { outline: none; }
+#ar-button:focus-visible { outline: 1px solid #4285f4; }
+
+@keyframes circle {
+    from { transform: translateX(-50%) rotate(0deg) translateX(50px) rotate(0deg); }
+    to   { transform: translateX(-50%) rotate(360deg) translateX(50px) rotate(-360deg); }
+}
+@keyframes elongate {
+    from { transform: translateX(100px); }
+    to   { transform: translateX(-100px); }
+}
+
+model-viewer > #ar-prompt {
+    position: absolute;
+    left: 50%;
+    bottom: 60px;
+    animation: elongate 2s infinite ease-in-out alternate;
+    display: none;
+    z-index: 10;
+}
+
+model-viewer[ar-status="session-started"] > #ar-prompt { display: block; }
+
+model-viewer > #ar-prompt > img {
+    /* Placeholder size for ar_hand_prompt.png */
+    width: 60px;
+    height: 60px;
+    animation: circle 4s linear infinite;
+}
+
+/* --- Info Button & Modal Styles --- */
+
+/* Info Button */
+#openInfoModal {
+    border: none;
+    border-radius: 10px;
+    color: black;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+    margin: 20px 2px;
+    cursor: pointer;
+    
+    height: 30px;
+    margin-top: 18px;
+    padding-top: 0px;
+    margin-bottom: 0px;
+    padding-bottom: 0px;
+
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: all 0.15s ease-in-out;
+}
+#openInfoModal:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* Centering container for the single button */
+.button-container {
+    background-color: white;
+    padding-bottom: 0px;
+    display: flex; 
+    justify-content: center;
+}
+
+/* Custom Modal Styling (Hidden by default) */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    /* Changed to a darker, more opaque overlay */
+    background-color: rgba(0, 0, 0, 0.8); 
+    z-index: 50;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+}
+
+.modal-overlay.open {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/* Tab Styles: */
+.tab-button {
+    border-bottom: 2px solid transparent; /* Placeholder to prevent shift */
+    margin-bottom: -1px; /* Helps overlap the bottom border of the tab container if one existed */
+    transition: all 0.15s ease;
+}
+
+.tab-button.active {
+    /* Remove blue border and text, lift the tab visually, make it white */
+    background-color: white !important;
+    color: #1f2937; /* Dark gray text */
+    position: relative;
+    z-index: 10;
+    /* Only top corners rounded */
+    border-top-left-radius: 0.5rem;
+    border-top-right-radius: 0.5rem;
+    /* Add a subtle shadow to define the tab without a heavy border */
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.05); 
+}
