@@ -186,3 +186,16 @@ model-viewer > #ar-prompt > img {
     /* Add a subtle shadow to define the tab without a heavy border */
     box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.05); 
 }
+
+/* Logo row styling */
+.logos-row {
+  width: 100%;
+}
+.logos-row .logo-img {
+  height: 40px;
+  width: auto;
+  max-width: 25%;
+  object-fit: contain;
+  display: inline-block;
+  vertical-align: middle;
+}
