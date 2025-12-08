@@ -19,9 +19,9 @@ model-viewer {
     height: calc(100vh - 80px); 
     background-color: #ffffff;
     /* Added margin to separate from the Info button */
-    margin-top: 16px; 
+    margin-top: 0px; 
     border-radius: 8px; 
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0);
 }
 
 .progress-bar {
@@ -64,7 +64,7 @@ model-viewer {
     left: 50%;
     transform: translateX(-50%);
     white-space: nowrap;
-    bottom: 16px;
+    bottom: 32px;
     padding: 0px 16px 0px 40px;
     font-family: 'Roboto Regular', 'Helvetica Neue', sans-serif;
     font-size: 14px;
@@ -114,15 +114,15 @@ model-viewer > #ar-prompt > img {
     border: none;
     border-radius: 10px;
     color: black;
-    padding: 10px 20px;
+    padding: 10px 24px;
     text-align: center;
     text-decoration: none;
     display: inline-block;
-    font-size: 14px;
+    font-size: 16px;
     margin: 20px 2px;
     cursor: pointer;
     
-    height: 30px;
+    height: 36px;
     margin-top: 18px;
     padding-top: 0px;
     margin-bottom: 0px;
