@@ -203,7 +203,7 @@ model-viewer > #ar-prompt > img {
     
     /* FIX: Increase horizontal padding to align with modal content. */
     /* Padding is now: 10px top/bottom, 20px left/right */
-    padding: 10px 0px; 
+    padding: 0px 0px; 
     //background-color: pink; 
 }
 
