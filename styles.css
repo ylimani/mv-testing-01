@@ -210,8 +210,9 @@ model-viewer > #ar-prompt > img {
 .logos-row .logo-img {
     height: 40px; 
     width: auto;
-    max-width: 25%;
+    flex-basis: auto;
     object-fit: contain;
+    flex-shrink: 0;
     /* RETAINED: No default margins */
 }
 
