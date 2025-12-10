@@ -1,21 +1,24 @@
 console.log("App logic loaded. Content is managed directly in index.html.");
 
-// --- 1. 3D Model Viewer Progress Handler (iOS FIX INCLUDED) ---
-// This handles the loading bar display for the 3D model.
+// --- 1. 3D Model Viewer Progress Handler (iOS FIX) ---
+// This handles the loading bar display and is necessary for model-viewer v4.0+
 const onProgress = (event) => {
     const progressBar = event.target.querySelector('.progress-bar');
     const updatingBar = event.target.querySelector('.update-bar');
     
     if (!progressBar || !updatingBar) return;
     
-    // Update the width of the bar
+    // Update the width of the bar based on model progress
     updatingBar.style.width = `${event.detail.totalProgress * 100}%`;
     
     if (event.detail.totalProgress === 1) {
-        // Loaded: Add the 'hide' class to make it fade out
-        progressBar.classList.add('hide');
-        // Optional: Stop listening once loaded to save resources
-        event.target.removeEventListener('progress', onProgress);
+        // *** FIX: DELAY HIDING THE BAR BY 250MS TO ENSURE iOS RENDERS IT ***
+        setTimeout(() => {
+            progressBar.classList.add('hide');
+            // Stop listening once loaded to save resources
+            event.target.removeEventListener('progress', onProgress);
+        }, 250); // Delay in milliseconds
+        
     } else {
         // Loading: Remove the 'hide' class so it is visible
         progressBar.classList.remove('hide');
@@ -43,14 +46,14 @@ function openInfoModal() {
     // Ensure the first tab (Shqip) is active when opened
     switchTab('shqip');
 
-    modal.classList.add('open');
+    if (modal) modal.classList.add('open');
     // Prevent scrolling on the main body when modal is open
     document.body.style.overflow = 'hidden';
 }
 
 // Function to close the modal
 function closeModal() {
-    modal.classList.remove('open');
+    if (modal) modal.classList.remove('open');
     document.body.style.overflow = '';
 }
 
