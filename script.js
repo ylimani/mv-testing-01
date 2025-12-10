@@ -1,6 +1,6 @@
 console.log("App logic loaded. Content is managed directly in index.html.");
 
-// --- 3D Model Viewer Progress Handler ---
+// --- 1. 3D Model Viewer Progress Handler (iOS FIX INCLUDED) ---
 // This handles the loading bar display for the 3D model.
 const onProgress = (event) => {
     const progressBar = event.target.querySelector('.progress-bar');
@@ -8,23 +8,27 @@ const onProgress = (event) => {
     
     if (!progressBar || !updatingBar) return;
     
+    // Update the width of the bar
     updatingBar.style.width = `${event.detail.totalProgress * 100}%`;
     
     if (event.detail.totalProgress === 1) {
-        // Hide the bar once loading is complete
+        // Loaded: Add the 'hide' class to make it fade out
         progressBar.classList.add('hide');
+        // Optional: Stop listening once loaded to save resources
         event.target.removeEventListener('progress', onProgress);
     } else {
+        // Loading: Remove the 'hide' class so it is visible
         progressBar.classList.remove('hide');
     }
 };
 
+// Select the model viewer ONCE
 const modelViewer = document.querySelector('model-viewer');
 if (modelViewer) {
     modelViewer.addEventListener('progress', onProgress);
 }
 
-// --- Modal Elements ---
+// --- 2. Modal Elements ---
 const infoButton = document.getElementById('openInfoModal');
 const modal = document.getElementById('infoModal');
 const closeModalButton = document.getElementById('closeModal');
@@ -32,14 +36,10 @@ const closeModalButton = document.getElementById('closeModal');
 const tabButtons = document.querySelectorAll('.tab-button');
 const tabContents = document.querySelectorAll('.tab-content');
 
-// NOTE: The content variables (shqipText, englishText, serbianText) 
-// and the corresponding document.getElementById calls have been removed 
-// because all content now lives in index.html.
+// --- 3. Modal Functions ---
 
 // Function to open the modal
 function openInfoModal() {
-    // CONTENT INJECTION LINES REMOVED HERE.
-    
     // Ensure the first tab (Shqip) is active when opened
     switchTab('shqip');
 
@@ -56,7 +56,7 @@ function closeModal() {
 
 // Function to switch tabs and update styling
 function switchTab(tabId) {
-    // 1. Deactivate all content and buttons
+    // A. Deactivate all content and buttons
     tabContents.forEach(content => {
         content.classList.add('hidden');
     });
@@ -66,7 +66,7 @@ function switchTab(tabId) {
         button.classList.add('bg-gray-200');
     });
 
-    // 2. Activate the selected content and button
+    // B. Activate the selected content and button
     const selectedContent = document.getElementById(`content-${tabId}`);
     const selectedButton = document.querySelector(`.tab-button[data-tab="${tabId}"]`);
     
@@ -77,20 +77,26 @@ function switchTab(tabId) {
     }
 }
 
-// --- Event Listeners ---
+// --- 4. Event Listeners ---
 
 // Open Modal
-infoButton.addEventListener('click', openInfoModal);
+if (infoButton) {
+    infoButton.addEventListener('click', openInfoModal);
+}
 
 // Close Modal
-closeModalButton.addEventListener('click', closeModal);
+if (closeModalButton) {
+    closeModalButton.addEventListener('click', closeModal);
+}
 
 // Close on overlay click
-modal.addEventListener('click', (event) => {
-    if (event.target === modal) {
-        closeModal();
-    }
-});
+if (modal) {
+    modal.addEventListener('click', (event) => {
+        if (event.target === modal) {
+            closeModal();
+        }
+    });
+}
 
 // Tab Switcher Click Handler
 tabButtons.forEach(button => {
