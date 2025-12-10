@@ -37,6 +37,8 @@ model-viewer {
     box-shadow: 0px 3px 10px 3px rgba(0, 0, 0, 0.5), 0px 0px 5px 1px rgba(0, 0, 0, 0.6);
     border: 1px solid rgba(255, 255, 255, 0.9);
     background-color: rgba(0, 0, 0, 0.5);
+    /* NEW FIX: Forces GPU compositing for visibility on iOS */
+    will-change: transform; 
 }
 
 .progress-bar.hide {
@@ -51,6 +53,8 @@ model-viewer {
     border-radius: 25px;
     float: left;
     transition: width 0.3s;
+    /* NEW FIX: Forces GPU compositing for animation visibility on iOS */
+    will-change: width; 
 }
 
 #ar-button {
@@ -64,7 +68,7 @@ model-viewer {
     left: 50%;
     transform: translateX(-50%);
     white-space: nowrap;
-    bottom: 82px;
+    bottom: 102px;
     padding: 0px 16px 0px 40px;
     font-family: 'Roboto Regular', 'Helvetica Neue', sans-serif;
     font-size: 14px;
@@ -191,13 +195,53 @@ model-viewer > #ar-prompt > img {
 
 /* Logo row styling */
 .logos-row {
-  width: 100%;
+    width: 100%;
+    display: flex; 
+    align-items: center;
+
+    margin: 0 -25px 0 -25px;
+    
+    /* FIX: Increase horizontal padding to align with modal content. */
+    /* Padding is now: 10px top/bottom, 20px left/right */
+    padding: 10px 0px; 
+    //background-color: pink; 
 }
+
 .logos-row .logo-img {
-  height: 40px;
-  width: auto;
-  max-width: 25%;
-  object-fit: contain;
-  display: inline-block;
-  vertical-align: middle;
+    height: 40px; 
+    width: auto;
+    max-width: 25%;
+    object-fit: contain;
+    /* RETAINED: No default margins */
 }
+
+/* NEW: Apply 15px margin to the right of the first three logos */
+.logos-row .logo-img:nth-child(-n+3) {
+    margin-right: 25px;
+    margin-left:0px;
+}
+
+/* This still pushes the 4th logo (EU Logo) to the far right */
+.logos-row .logo-img:nth-child(4) {
+    margin-left: auto;
+    margin-right: -25px; 
+    /* Ensure no extra margin is applied here, it relies on auto */
+}
+
+/* --- Close Button Style --- */
+#closeModal {
+    background: none;
+    border: none;
+    font-size: 35px;  /* Makes the 'X' icon large */
+    color: #333;      /* Dark gray color */
+    cursor: pointer;
+    z-index: 60;      /* Ensure it sits above all other modal content */
+    padding: 5px;
+    line-height: 0.5;
+    transition: color 0.15s ease;
+}
+
+#closeModal:hover {
+    color: #000;      /* Darken on hover */
+}
+
