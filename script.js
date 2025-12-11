@@ -1,37 +1,30 @@
 console.log("App logic loaded. Content is managed directly in index.html.");
 
-// --- 1. 3D Model Viewer Progress Handler (iOS FIX) ---
-// This handles the loading bar display and is necessary for model-viewer v4.0+
+// --- 3D Model Viewer Progress Handler ---
+// This handles the loading bar display for the 3D model.
 const onProgress = (event) => {
     const progressBar = event.target.querySelector('.progress-bar');
     const updatingBar = event.target.querySelector('.update-bar');
     
     if (!progressBar || !updatingBar) return;
     
-    // Update the width of the bar based on model progress
     updatingBar.style.width = `${event.detail.totalProgress * 100}%`;
     
     if (event.detail.totalProgress === 1) {
-        // *** FIX: DELAY HIDING THE BAR BY 250MS TO ENSURE iOS RENDERS IT ***
-        setTimeout(() => {
-            progressBar.classList.add('hide');
-            // Stop listening once loaded to save resources
-            event.target.removeEventListener('progress', onProgress);
-        }, 250); // Delay in milliseconds
-        
+        // Hide the bar once loading is complete
+        progressBar.classList.add('hide');
+        event.target.removeEventListener('progress', onProgress);
     } else {
-        // Loading: Remove the 'hide' class so it is visible
         progressBar.classList.remove('hide');
     }
 };
 
-// Select the model viewer ONCE
 const modelViewer = document.querySelector('model-viewer');
 if (modelViewer) {
     modelViewer.addEventListener('progress', onProgress);
 }
 
-// --- 2. Modal Elements ---
+// --- Modal Elements ---
 const infoButton = document.getElementById('openInfoModal');
 const modal = document.getElementById('infoModal');
 const closeModalButton = document.getElementById('closeModal');
@@ -39,27 +32,31 @@ const closeModalButton = document.getElementById('closeModal');
 const tabButtons = document.querySelectorAll('.tab-button');
 const tabContents = document.querySelectorAll('.tab-content');
 
-// --- 3. Modal Functions ---
+// NOTE: The content variables (shqipText, englishText, serbianText) 
+// and the corresponding document.getElementById calls have been removed 
+// because all content now lives in index.html.
 
 // Function to open the modal
 function openInfoModal() {
+    // CONTENT INJECTION LINES REMOVED HERE.
+    
     // Ensure the first tab (Shqip) is active when opened
     switchTab('shqip');
 
-    if (modal) modal.classList.add('open');
+    modal.classList.add('open');
     // Prevent scrolling on the main body when modal is open
     document.body.style.overflow = 'hidden';
 }
 
 // Function to close the modal
 function closeModal() {
-    if (modal) modal.classList.remove('open');
+    modal.classList.remove('open');
     document.body.style.overflow = '';
 }
 
 // Function to switch tabs and update styling
 function switchTab(tabId) {
-    // A. Deactivate all content and buttons
+    // 1. Deactivate all content and buttons
     tabContents.forEach(content => {
         content.classList.add('hidden');
     });
@@ -69,7 +66,7 @@ function switchTab(tabId) {
         button.classList.add('bg-gray-200');
     });
 
-    // B. Activate the selected content and button
+    // 2. Activate the selected content and button
     const selectedContent = document.getElementById(`content-${tabId}`);
     const selectedButton = document.querySelector(`.tab-button[data-tab="${tabId}"]`);
     
@@ -80,26 +77,20 @@ function switchTab(tabId) {
     }
 }
 
-// --- 4. Event Listeners ---
+// --- Event Listeners ---
 
 // Open Modal
-if (infoButton) {
-    infoButton.addEventListener('click', openInfoModal);
-}
+infoButton.addEventListener('click', openInfoModal);
 
 // Close Modal
-if (closeModalButton) {
-    closeModalButton.addEventListener('click', closeModal);
-}
+closeModalButton.addEventListener('click', closeModal);
 
 // Close on overlay click
-if (modal) {
-    modal.addEventListener('click', (event) => {
-        if (event.target === modal) {
-            closeModal();
-        }
-    });
-}
+modal.addEventListener('click', (event) => {
+    if (event.target === modal) {
+        closeModal();
+    }
+});
 
 // Tab Switcher Click Handler
 tabButtons.forEach(button => {
